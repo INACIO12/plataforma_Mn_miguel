@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Tarefa</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Criar Tarefa</h1>
+        <form id="taskForm">
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="description">Descrição:</label>
+            <textarea id="description" name="description" required></textarea>
+            <label for="startDate">Data Inicial:</label>
+            <input type="date" id="startDate" name="startDate" required>
+            <label for="endDate">Data Final:</label>
+            <input type="date" id="endDate" name="endDate" required>
+            <label for="startTime">Hora Inicial:</label>
+            <input type="time" id="startTime" name="startTime" required>
+            <label for="endTime">Hora Final:</label>
+            <input type="time" id="endTime" name="endTime" required>
+            <button type="submit">Criar Tarefa</button>
+        </form>
+        <p id="taskMessage"></p>
+    </div>
+    <script src="./js/scripts.js"></script>
+</body>
+</html>
