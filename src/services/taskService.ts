@@ -10,6 +10,7 @@ export async function createTask(
   startTime: string,
   endTime: string
 ) {
+  // 
   try {
     const startDate = new Date(startDateTime);
     const endDate = new Date(endDateTime);
@@ -68,13 +69,16 @@ export async function getRelevantTasks(userId: number) {
         },
         archived: false,
       },
+      orderBy: [
+        { startDate: 'asc' },
+        { startTime: 'asc' }
+      ],
     });
     return tasks;
   } catch (error: any) {
     throw new Error(`Failed to get relevant tasks: ${error.message}`);
   }
 }
-
 
 export async function getTodayTasks(userId: number) {
   try {
@@ -98,5 +102,17 @@ export async function getTodayTasks(userId: number) {
     return tasks;
   } catch (error: any) {
     throw new Error(`Failed to get today's tasks: ${error.message}`);
+  }
+}
+
+// getAllyTasks
+
+export async function getAllyTasks(userId: number) {
+  try {
+    const tasks = await prisma.task.findMany();
+
+    return tasks;
+  } catch (error: any) {
+    throw new Error(`Failed to get all's tasks: ${error.message}`);
   }
 }

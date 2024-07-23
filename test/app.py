@@ -1,4 +1,4 @@
-token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMTcyMzYzNywiZXhwIjoxNzIxNzI3MjM3fQ.0pLf3N-6OPUYU0_opimABXmruxSR_WKiiiR5UOgqwFM'
+token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTcyMTc0ODg2NCwiZXhwIjoxNzIxNzUyNDY0fQ.epCFMm6-8MEum1q02ufniD5isRkty2DVx3rEGmn0zng'
 
 
 import requests
@@ -27,6 +27,15 @@ def fetch_today_tasks():
         print(f'Erro ao buscar tarefas do dia: {e}')
         return None
 
+def fetch_relevant_tasks():
+    try:
+        response = requests.get(f'{BASE_URL}/relevant', headers=HEADERS)
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        print(f'Erro ao buscar tarefas relevantes: {e}')
+        return None
+
 # Exemplo de uso
 if __name__ == '__main__':
 
@@ -34,3 +43,6 @@ if __name__ == '__main__':
     today_tasks = fetch_today_tasks()
     print("Tarefas do dia:", today_tasks)
 
+    print("\nBuscando tarefas relevantes...")
+    relevant_tasks = fetch_relevant_tasks()
+    print("Tarefas relevantes:", relevant_tasks)

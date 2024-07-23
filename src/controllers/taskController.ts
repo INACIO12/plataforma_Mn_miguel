@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createTask, archiveTask, getRelevantTasks, getTodayTasks } from '../services/taskService';
+import { createTask, archiveTask, getRelevantTasks, getTodayTasks, getAllyTasks } from '../services/taskService';
 
 export async function createTaskHandler(req: Request, res: Response) {
   const { name, description, startDate, endDate, startTime, endTime } = req.body;
@@ -29,6 +29,7 @@ export async function archiveTaskHandler(req: Request, res: Response) {
   }
 }
 
+
 export async function getRelevantTasksHandler(req: Request, res: Response) {
   const userId = (req as any).user.userId;
   try {
@@ -43,6 +44,19 @@ export async function getTodayTasksHandler(req: Request, res: Response) {
   const userId = (req as any).user.userId;
   try {
     const tasks = await getTodayTasks(userId);
+    res.json(tasks);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+// getTAllTasksHandler
+
+export async function getTAllTasksHandler(req: Request, res: Response) {
+  const userId = (req as any).user.userId;
+  try {
+    const tasks = await getAllyTasks(userId);
     res.json(tasks);
   } catch (error: any) {
     res.status(500).json({ error: error.message });

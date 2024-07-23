@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Notifications</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #notifications { margin-top: 20px; }
+    .notification { padding: 10px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Task Notifications</h1>
+  <div id="notifications"></div>
+
+  <!-- Update the URL to match the correct path to socket.io.js -->
+  <script src="http://localhost:3001/socket.io/socket.io.js"></script>
+<script>
+  // Connect to the WebSocket server
+  const socket = io('http://localhost:3001');
+
+  // Listen for messages from the server
+  socket.on('daily-tasks', (tasks) => {
+    displayNotifications('Daily Tasks', tasks);
+  });
+
+  socket.on('tasks-by-time', (tasks) => {
+    displayNotifications('Tasks by Time', tasks);
+  });
+
+  function displayNotifications(title, tasks) {
+    const notificationsDiv = document.getElementById('notifications');
+    const header = document.createElement('h2');
+    header.textContent = title;
+    notificationsDiv.appendChild(header);
+
+    tasks.forEach(task => {
+      const notificationDiv = document.createElement('div');
+      notificationDiv.className = 'notification';
+      notificationDiv.textContent = `Task: ${task.name} - ${task.description}`;
+      notificationsDiv.appendChild(notificationDiv);
+    });
+  }
+</script>
+
+</body>
+</html>

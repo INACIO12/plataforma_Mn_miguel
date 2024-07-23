@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskList = document.getElementById('taskList');
     const loginMessage = document.getElementById('loginMessage');
     const taskMessage = document.getElementById('taskMessage');
+    const fetchAllTasksBtn = document.getElementById('fetchAllTasksBtn');
+    // fetchAllTasksBtn
 
     const apiUrl = 'http://localhost:3000/api'; // Altere conforme a configuração do seu servidor
 
@@ -68,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 taskMessage.textContent = `Erro: ${error.message}`;
             }
         });
+        
     }
 
     // Buscar Tarefas Relevantes
@@ -111,4 +114,59 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    if(fetchAllTasksBtn){
+
+        fetchAllTasksBtn.addEventListener("click", async()=>{
+
+        
+                // Obtenha o token do localStorage
+        const token = localStorage.getItem('token');
+
+        // Crie os headers da requisição
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        });
+
+        // Defina a URL da API
+        const apiUrl = 'http://localhost:3000/api/tasks/all';
+
+        // Faça a requisição GET
+        fetch(apiUrl, {
+            method: 'GET',
+            headers: headers
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            taskList.innerHTML = data.map(task => `
+                <li>
+                    <strong>${task.name}</strong><br>
+                    Descrição: ${task.description}<br>
+                    Data Inicial: ${new Date(task.startDate).toLocaleDateString()}<br>
+                    Data Final: ${new Date(task.endDate).toLocaleDateString()}<br>
+                    Hora Inicial: ${new Date(task.startTime).toLocaleTimeString()}<br>
+                    Hora Final: ${new Date(task.endTime).toLocaleTimeString()}
+                </li>
+            `).join('');
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            // Manipule os erros da requisição
+            console.error('There was a problem with the fetch operation:', error);
+        });
+
+    })
+
+    }
 });
+
+
+
+// fetchAllTasksBtn
